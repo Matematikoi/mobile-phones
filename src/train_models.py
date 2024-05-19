@@ -85,10 +85,11 @@ class CellPhoneModel:
         """
         return self.model.score(self.X_val, self.y_val)
 
-    def predict(self):
+    def predict(self, data):
         """
         Given a matrix X it predict a vector y
         """
+        self.model.predict(data)
 
 
 def main():
