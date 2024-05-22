@@ -8,6 +8,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import f1_score, make_scorer
+import pickle
 
 
 class CellPhoneModel:
@@ -85,11 +86,17 @@ class CellPhoneModel:
         """
         return self.model.score(self.X_val, self.y_val)
 
+    def get_score_test(self):
+        """
+        Get the f1 micro result for test
+        """
+        return self.model.score(self.X_test, self.y_test)
+
     def predict(self, data):
         """
         Given a matrix X it predict a vector y
         """
-        self.model.predict(data)
+        return self.model.predict(data)
 
 
 def main():
@@ -152,7 +159,10 @@ def main():
         m = CellPhoneModel(model, param)
         m.train()
         result.append(m)
-
+    _, best_model = max([(i.get_score_val(), i) for i in result])
+    with open('./data/model.pickle', 'wb') as handle:
+        pickle.dump(best_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    
 
 if __name__ == "__main__":
     main()
