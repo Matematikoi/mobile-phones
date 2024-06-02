@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/bootstrap.min.css') }}">
+    
+
+    <title>Mobile Price Range Predictor</title>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <link href="{{ url_for('static', filename='fontawesome/css/all.css')}}" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet"> 
+
+    <style>
+        body{
+            font-family: 'Noto Sans', sans-serif;
+        }
+        
+        .y:link{
+        	color: rgba(255,255,255,0.8);
+        	border-bottom: 0;
+        }
+        .y:hover{
+            color:#fff
+        }
+    </style>
+
+  </head>
+  <body>
+
+    <div class="container" style="font-size:15px; padding-left:0px; padding-right:0px">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:white !important">
+        <a class="navbar-brand" href="index.html"><img src="{{ url_for('static', filename='./img/upc.png')}}" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('index')}}" style="padding-right:20px">Home</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="padding-right:20px">About Us</a>
+            </li>
+            
+            <li class="nav-item" href="#" style="padding-right:20px">
+                <a class="nav-link" href="#">Services</a>
+            </li>
+
+            <li class="nav-item active" href="index.html" style="padding-right:20px">
+                <a class="nav-link" href="index.html">Mobile Price Predictor</a>
+            </li>
+            
+
+            </ul>
+        </div>
+        </nav>
+    </div>
+
+
+    <div class="container-fluid" style="padding:0px; margin:0px; background-image:url('{{ url_for('static', filename='img/banner.png') }}'); background-repeat: repeat; background-position: left center;height:278px">
+    </div>
+
+    <div class="container" style="padding-top:40px; padding-bottom:60px">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 style="padding-bottom:0px; margin-bottom:0px">
+                    <strong><span style="color:#2C3B8D">Mobile</span> <span style="color:#E90760">Price Predictor Result:</span></strong>
+                </h1>
+                <hr style="border:solid 1px #2C3B8D; width:420px; display: inline-block;" />
+                <p style="margin-top:10px; color:#2C3B8D; font-size:18px;">
+                    An app that predicts the price range of your mobile phone based on its features.
+                </p>
+            </div>
+            
+
+            <div class="col-md-12">
+                <p style="font-size:14px">Fill in the details below to predict the price range of your mobile phone:</p><hr/>
+            </div>
+
+            <div class="col-md-12" style="padding-top:10px; font-size:14px">
+                <form name="form1" id="form1" method="post" action="{{url_for('predict')}}">
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-3">
+                            <label for="battery_power">Battery Power (mAh):</label>
+                            <input type="number" class="form-control" id="battery_power" name="battery_power" placeholder="e.g., 2000" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="blue">Bluetooth Support:</label>
+                            <select name="blue" id="blue" class="form-control" required>
+                                <option value="" selected>Select Bluetooth Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="clock_speed">Clock Speed (GHz):</label>
+                            <input type="number" step="0.1" class="form-control" id="clock_speed" name="clock_speed" placeholder="e.g., 2.5" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="dual_sim">Dual SIM Support:</label>
+                            <select name="dual_sim" id="dual_sim" class="form-control" required>
+                                <option value="" selected>Select Dual SIM Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="fc">Front Camera Resolution (MP):</label>
+                            <input type="number" class="form-control" id="fc" name="fc" placeholder="e.g., 8" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="four_g">4G Support:</label>
+                            <select name="four_g" id="four_g" class="form-control" required>
+                                <option value="" selected>Select 4G Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="int_memory">Internal Memory (GB):</label>
+                            <input type="number" class="form-control" id="int_memory" name="int_memory" placeholder="e.g., 32" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="m_dep">Mobile Depth (cm):</label>
+                            <input type="number" step="0.01" class="form-control" id="m_dep" name="m_dep" placeholder="e.g., 0.8" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="mobile_wt">Mobile Weight (g):</label>
+                            <input type="number" class="form-control" id="mobile_wt" name="mobile_wt" placeholder="e.g., 150" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="n_cores">Number of Cores:</label>
+                            <input type="number" class="form-control" id="n_cores" name="n_cores" placeholder="e.g., 4" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="pc">Primary Camera Resolution (MP):</label>
+                            <input type="number" class="form-control" id="pc" name="pc" placeholder="e.g., 16" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="px_height">Pixel Height Resolution:</label>
+                            <input type="number" class="form-control" id="px_height" name="px_height" placeholder="e.g., 1920" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="px_width">Pixel Width Resolution:</label>
+                            <input type="number" class="form-control" id="px_width" name="px_width" placeholder="e.g., 1080" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="ram">RAM (MB):</label>
+                            <input type="number" class="form-control" id="ram" name="ram" placeholder="e.g., 4096" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="sc_h">Screen Height (cm):</label>
+                            <input type="number" class="form-control" id="sc_h" name="sc_h" placeholder="e.g., 12" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="sc_w">Screen Width (cm):</label>
+                            <input type="number" class="form-control" id="sc_w" name="sc_w" placeholder="e.g., 6" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="talk_time">Talk Time (hours):</label>
+                            <input type="number" class="form-control" id="talk_time" name="talk_time" placeholder="e.g., 24" required>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="three_g">3G Support:</label>
+                            <select name="three_g" id="three_g" class="form-control" required>
+                                <option value="" selected>Select 3G Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="touch_screen">Touch Screen Support:</label>
+                            <select name="touch_screen" id="touch_screen" class="form-control" required>
+                                <option value="" selected>Select Touch Screen Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="wifi">Wi-Fi Support:</label>
+                            <select name="wifi" id="wifi" class="form-control" required>
+                                <option value="" selected>Select Wi-Fi Support</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div style="text-align:left; padding-top:10px">
+                        <button type="submit" class="btn btn-lg btn-danger" style="font-weight:normal"><i class="fas fa-mouse-pointer"></i> Predict Price Range</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="container-fluid" style="background-color:#fff">
+        <div class="container" style="padding-bottom:40px">
+            <div class="row">
+                <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
+                    <h2 style="text-align:center; font-weight:bold"><span style="color:#E90760">ACCREDITATION </span> </h2>
+                </div>
+            </div>
+
+    
+                <div class="col-md-3" style="text-align:center">
+                    <img src="{{ url_for('static', filename='img/upc.png')}}" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    
+    <div class="container-fluid" style="background-color:#16205A; padding-top:70px; padding-bottom:70px">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12" style="text-align: center">
+                    <img src="{{ url_for('static', filename='img/upc.png')}}" style="width:15%;" />
+                </div>
+
+                <div class="col-md-12" style="font-size:14px; text-align:center; color:#fff; padding-top:20px; padding-bottom:20px">
+                    <a href="#" class="y">Contact Us</a> | <a href="#" class="y">Site Map</a> | <a href="#" class="y">Cookie Policy</a> | <a href="#" class="y">Privacy Policy</a> | <a href="#" class="y">Safeguarding Policy</a> |
+                    <a href="#" class="y">Modern Slavery Policy</a> | <a href="#" class="y">Complaints</a> | <a href="#" class="y">Accessibility</a> | <a href="#" class="y">Careers</a>
+                </div>
+
+                <div class="col-md-12" style="font-size:50px; color:#fff; text-align:center">
+                    <i class="fab fa-twitter"></i> &nbsp;   <i class="fab fa-facebook-f"></i>  &nbsp;   
+                    <i class="fab fa-linkedin-in"></i> &nbsp;     <i class="fab fa-youtube"></i>
+                </div>
+
+                <div class="col-md-12" style="color:#fff; font-size:12px; padding-top:20px; text-align:center">
+                
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+  </body>
+</html>
