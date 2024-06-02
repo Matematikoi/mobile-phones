@@ -1,4 +1,18 @@
+# Ignore warnings for convergence
+# since scikit learn has problems ignoring them when n_jobs = -1
+# this solution is provided to ignore almost all warnings.
+#
+#
+# The code should run in ~1m30s
+import sys
+import os
+import warnings
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
+    os.environ["PYTHONWARNINGS"] = "ignore"
 import file_management as fm
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.utils._testing import ignore_warnings
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression, Ridge, LinearRegression, Lasso
@@ -63,6 +77,7 @@ class CellPhoneModel:
             X_val_train, y_val_train, test_size=0.3, random_state=42
         )
 
+    @ignore_warnings(category=ConvergenceWarning)
     def train(self):
         """
         Trains the model and saves the model data
@@ -116,6 +131,7 @@ class CellPhoneModel:
             y_pred = np.minimum(y_pred.round().astype(int), 3)
         return f1_score(self.y_val, y_pred, average="micro")
 
+    @ignore_warnings(category=ConvergenceWarning)
     def get_score_test(self):
         """
         Get the f1 micro result for test
@@ -210,7 +226,12 @@ def main():
         m = CellPhoneModel(model, param)
         m.train()
         result.append(m)
-    _, best_model = max([(i.get_score_test(), i) for i in result])
+    models = [(i.get_score_test(), i) for i in result]
+    for score, model in models:
+        print(f'f1 score for {model.model_name} is {score}')
+    _, best_model = max(models)
+
+
     with open("./data/model.pickle", "wb") as handle:
         pickle.dump(best_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
