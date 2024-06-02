@@ -29,6 +29,10 @@ This will train all 7 models and pick the best one to store.
 
 When using the pickle make sure to import the `train_models.py` file to access all the methods of the `CellPhoneModel`. 
 An example of reading the pickle file is provided in the notebook `read_pickle.py`
-
-
+## Running the Deployment
+1. ```sh
+   pip install -r requirements.txt ```
+  found in the Mobile Price Prediction folder
+2. Run ``` python
+      flask run app.py ```
 Authors: Iyoha Peace Osamuyi and  Gabriel Octavio Lozano Pinzón
