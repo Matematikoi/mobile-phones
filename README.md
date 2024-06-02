@@ -31,10 +31,10 @@ When using the pickle make sure to import the `train_models.py` file to access a
 An example of reading the pickle file is provided in the notebook `read_pickle.py`
 ## Running the Deployment
 1.    ```sh
-      pip install -r requirements.txt ```
+      pip install -r requirements.txt 
    found in the Mobile Price Deployment folder
 
 2. Run the Flask application in the Mobile Price Deployment folder :
    ```sh
-    flask run app.py ```
+    flask run app.py 
 Authors: Iyoha Peace Osamuyi and  Gabriel Octavio Lozano Pinzón
