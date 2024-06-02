@@ -32,6 +32,9 @@ An example of reading the pickle file is provided in the notebook `read_pickle.p
 ## Running the Deployment
 1.    ```sh
       pip install -r requirements.txt ```
-   found in the Mobile Price Prediction folder
-2. Run ``` flask run app.py ```
+   found in the Mobile Price Deployment folder
+
+2. Run the Flask application in the Mobile Price Deployment folder :
+   ```sh
+    flask run app.py ```
 Authors: Iyoha Peace Osamuyi and  Gabriel Octavio Lozano Pinzón
