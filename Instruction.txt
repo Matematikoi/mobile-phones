@@ -25,6 +25,9 @@ This script will:
  -Evaluate their performance.
  -Select the best-performing model.
  -Save the best model to a pickle file for later use.
+ -Generate a CSV file with the results in the data folder
+ -Generate a confusion matrix of the best performing model performance
+ -Generate a pickle file to use the best model in the data folder
 
 To use the Pickle File
 When using the pickle file, ensure you import the train_models.py file to access all the methods of the CellPhoneModel

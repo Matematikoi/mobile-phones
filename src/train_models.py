@@ -11,6 +11,8 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
     os.environ["PYTHONWARNINGS"] = "ignore"
 import file_management as fm
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.utils._testing import ignore_warnings
 from sklearn.preprocessing import StandardScaler
@@ -22,6 +24,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import f1_score, make_scorer, d2_absolute_error_score
+import pandas as pd
 import numpy as np
 import pickle
 
@@ -144,12 +147,26 @@ class CellPhoneModel:
             y_pred = np.minimum(y_pred.round().astype(int), 3)
         return f1_score(self.y_test, y_pred, average="micro")
 
+    @ignore_warnings(category=ConvergenceWarning)
+    def train_final_model(self):
+        """
+        Trains the model with all the data
+        """
+        X = np.concatenate((self.X_train, self.X_val, self.X_test), axis=0)
+        y = np.concatenate((self.y_train, self.y_val, self.y_test), axis=0)
+        self.model.fit(X, y)
+
     def predict(self, data):
         """
         Given a matrix X it predict a vector y
         """
         return self.model.predict(data)
 
+def save_confusion_matrix(model):
+    cm = confusion_matrix(model.y_test, model.predict(model.X_test))
+    d  = ConfusionMatrixDisplay(confusion_matrix = cm)
+    d.plot();
+    plt.savefig('./data/confusion_matrix.png')
 
 def main():
     model_params = [
@@ -176,40 +193,40 @@ def main():
                 "svc__kernel": ["rbf", "linear", "poly", "sigmoid", "precomputed"],
             },
         ),
-        (
-            "DECISION_TREE",
-            {
-                "decisiontreeclassifier__criterion": ["gini", "entropy"],
-                "decisiontreeclassifier__splitter": ["best", "random"],
-                "decisiontreeclassifier__max_depth": [3, 5, 7, 10],
-                "decisiontreeclassifier__min_samples_split": range(2, 11, 1),
-                "decisiontreeclassifier__min_samples_leaf": range(2, 10, 1),
-            },
-        ),
-        (
-            "RANDOM_FOREST",
-            {
-                "randomforestclassifier__n_estimators": range(25, 151, 50),
-                "randomforestclassifier__criterion": ["gini", "entropy"],
-                "randomforestclassifier__max_depth": [5, 7, 10],
-                "randomforestclassifier__min_samples_split": range(2, 100, 30),
-                "randomforestclassifier__min_samples_leaf": range(2, 100, 30),
-            },
-        ),
-        (
-            "GRADIENT_BOOSTING",
-            {
-                "gradientboostingclassifier__n_estimators": range(25, 151, 25),
-                "gradientboostingclassifier__max_depth": [3, 5, 7, 10],
-            },
-        ),
-        (
-            "RIDGE_REGRESSION",
-            {
-                "ridge__alpha": np.logspace(-6, 6, 13),
-                "ridge__max_iter": [1, 3, 30, 100, 200],
-            },
-        ),
+        # (
+        #     "DECISION_TREE",
+        #     {
+        #         "decisiontreeclassifier__criterion": ["gini", "entropy"],
+        #         "decisiontreeclassifier__splitter": ["best", "random"],
+        #         "decisiontreeclassifier__max_depth": [3, 5, 7, 10],
+        #         "decisiontreeclassifier__min_samples_split": range(2, 11, 1),
+        #         "decisiontreeclassifier__min_samples_leaf": range(2, 10, 1),
+        #     },
+        # ),
+        # (
+        #     "RANDOM_FOREST",
+        #     {
+        #         "randomforestclassifier__n_estimators": range(25, 151, 50),
+        #         "randomforestclassifier__criterion": ["gini", "entropy"],
+        #         "randomforestclassifier__max_depth": [5, 7, 10],
+        #         "randomforestclassifier__min_samples_split": range(2, 100, 30),
+        #         "randomforestclassifier__min_samples_leaf": range(2, 100, 30),
+        #     },
+        # ),
+        # (
+        #     "GRADIENT_BOOSTING",
+        #     {
+        #         "gradientboostingclassifier__n_estimators": range(25, 151, 25),
+        #         "gradientboostingclassifier__max_depth": [3, 5, 7, 10],
+        #     },
+        # ),
+        # (
+        #     "RIDGE_REGRESSION",
+        #     {
+        #         "ridge__alpha": np.logspace(-6, 6, 13),
+        #         "ridge__max_iter": [1, 3, 30, 100, 200],
+        #     },
+        # ),
         ("LINEAR_REGRESSION", {"linearregression__fit_intercept": [True, False]}),
         (
             "LASSO",
@@ -229,11 +246,26 @@ def main():
     models = [(i.get_score_test(), i) for i in result]
     for score, model in models:
         print(f'f1 score for {model.model_name} is {score}')
+
+    df_results = pd.DataFrame({
+        'model_name':[i[1].model_name for i in models],
+        'f1_score':[i[0] for i in models]
+    })
+
+    df_results.to_csv('./data/results.csv')
     _, best_model = max(models)
-
-
+    print('Training the final model with all the information')
+    best_model.train_final_model()
     with open("./data/model.pickle", "wb") as handle:
         pickle.dump(best_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    # Generate confusion matrix
+    save_confusion_matrix(best_model)
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
