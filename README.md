@@ -13,9 +13,21 @@ The dataset, sourced from Kaggle[1], consists of over 2000 rows, each representi
 The project will employ supervised machine learning classification techniques to predict the price range of mobile phones. Preliminary analysis will include exploratory data analysis (EDA) to understand the distribution of variables and identify patterns. Data preprocessing steps will include handling missing values, encoding categorical variables, feature scaling etc. Several classification algorithms, such as Decision Trees, Random Forest, Gradient Boosting, SVM, Catboost, Xgboost etc, will be evaluated and fine tuned to determine the most effective model based on accuracy, precision, recall and other metrics.The machine learning model will be integrated into a web-based interface.
 ## Significance
 By accurately predicting the price range of mobile phones based on specifications, this project will enable companies to adopt data-driven pricing strategies. This approach can lead to increased sales, customer satisfaction, and competitive advantage in the mobile phone market.
+## Running the code 
+To generate the pickle file to store the model you first need to setup your python environment. Please run 
 
+``` sh
+pip install -r requirements.txt
+```
 
+Now to generate the pickle you run 
 
+``` sh
+python src/train_models.py
+```
+This will train all 7 models and pick the best one to store. 
+
+When using the pickle make sure to import the `train_models.py` file to access all the methods of the `CellPhoneModel`. 
 
 
 Authors: Iyoha Peace Osamuyi and  Gabriel Octavio Lozano Pinzón

@@ -210,10 +210,9 @@ def main():
         m = CellPhoneModel(model, param)
         m.train()
         result.append(m)
-    _, best_model = max([(i.get_score_val(), i) for i in result])
+    _, best_model = max([(i.get_score_test(), i) for i in result])
     with open("./data/model.pickle", "wb") as handle:
         pickle.dump(best_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    return result
 
 
 if __name__ == "__main__":
