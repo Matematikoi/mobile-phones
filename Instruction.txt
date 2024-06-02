@@ -1,0 +1,31 @@
+Instructions to Execute and Reproduce Results
+
+## Jupyter Notebook
+
+1. Launch Jupyter Notebook
+
+2. Open the Notebook
+- Open `Mobile Price Prediction (ML)-EDA.ipynb` in the Jupyter interface.
+- Run each cell to reproduce the EDA process and visualizations.
+
+## For the Machine Learning Part
+
+ ## Environment Setup
+
+1. Install Dependencies
+pip install -r requirements.txt
+
+## Generate Pickle File
+
+1. **Run Training Script**
+python src/train_models.py
+
+This script will:
+ -Train seven different machine learning models.
+ -Evaluate their performance.
+ -Select the best-performing model.
+ -Save the best model to a pickle file for later use.
+
+To use the Pickle File
+When using the pickle file, ensure you import the train_models.py file to access all the methods of the CellPhoneModel
+Refer to the read_pickle.py script for an example of how to load and use the model.
