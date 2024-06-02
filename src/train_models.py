@@ -193,40 +193,40 @@ def main():
                 "svc__kernel": ["rbf", "linear", "poly", "sigmoid", "precomputed"],
             },
         ),
-        # (
-        #     "DECISION_TREE",
-        #     {
-        #         "decisiontreeclassifier__criterion": ["gini", "entropy"],
-        #         "decisiontreeclassifier__splitter": ["best", "random"],
-        #         "decisiontreeclassifier__max_depth": [3, 5, 7, 10],
-        #         "decisiontreeclassifier__min_samples_split": range(2, 11, 1),
-        #         "decisiontreeclassifier__min_samples_leaf": range(2, 10, 1),
-        #     },
-        # ),
-        # (
-        #     "RANDOM_FOREST",
-        #     {
-        #         "randomforestclassifier__n_estimators": range(25, 151, 50),
-        #         "randomforestclassifier__criterion": ["gini", "entropy"],
-        #         "randomforestclassifier__max_depth": [5, 7, 10],
-        #         "randomforestclassifier__min_samples_split": range(2, 100, 30),
-        #         "randomforestclassifier__min_samples_leaf": range(2, 100, 30),
-        #     },
-        # ),
-        # (
-        #     "GRADIENT_BOOSTING",
-        #     {
-        #         "gradientboostingclassifier__n_estimators": range(25, 151, 25),
-        #         "gradientboostingclassifier__max_depth": [3, 5, 7, 10],
-        #     },
-        # ),
-        # (
-        #     "RIDGE_REGRESSION",
-        #     {
-        #         "ridge__alpha": np.logspace(-6, 6, 13),
-        #         "ridge__max_iter": [1, 3, 30, 100, 200],
-        #     },
-        # ),
+        (
+            "DECISION_TREE",
+            {
+                "decisiontreeclassifier__criterion": ["gini", "entropy"],
+                "decisiontreeclassifier__splitter": ["best", "random"],
+                "decisiontreeclassifier__max_depth": [3, 5, 7, 10],
+                "decisiontreeclassifier__min_samples_split": range(2, 11, 1),
+                "decisiontreeclassifier__min_samples_leaf": range(2, 10, 1),
+            },
+        ),
+        (
+            "RANDOM_FOREST",
+            {
+                "randomforestclassifier__n_estimators": range(25, 151, 50),
+                "randomforestclassifier__criterion": ["gini", "entropy"],
+                "randomforestclassifier__max_depth": [5, 7, 10],
+                "randomforestclassifier__min_samples_split": range(2, 100, 30),
+                "randomforestclassifier__min_samples_leaf": range(2, 100, 30),
+            },
+        ),
+        (
+            "GRADIENT_BOOSTING",
+            {
+                "gradientboostingclassifier__n_estimators": range(25, 151, 25),
+                "gradientboostingclassifier__max_depth": [3, 5, 7, 10],
+            },
+        ),
+        (
+            "RIDGE_REGRESSION",
+            {
+                "ridge__alpha": np.logspace(-6, 6, 13),
+                "ridge__max_iter": [1, 3, 30, 100, 200],
+            },
+        ),
         ("LINEAR_REGRESSION", {"linearregression__fit_intercept": [True, False]}),
         (
             "LASSO",
