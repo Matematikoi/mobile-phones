@@ -29,3 +29,21 @@ This script will:
 To use the Pickle File
 When using the pickle file, ensure you import the train_models.py file to access all the methods of the CellPhoneModel
 Refer to the read_pickle.py script for an example of how to load and use the model.
+
+## For the Deployment locally
+It should follow this structure:
+project/
+│
+├── app.py
+├── pickel_file
+├── Procfile
+├── requirements.txt
+├── templates/
+│   └── index.html
+|   └──output.html
+└── static/
+    └── css
+    └── img
+    └── js
+First, pip install requirements.txt
+Second, To run the application, simply type flask run app.py
